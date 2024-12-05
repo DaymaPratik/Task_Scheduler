@@ -19,7 +19,7 @@ function PendingTasks() {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/user/getAllTask", {
+        const response = await fetch("https://task-scheduler-b7ue.onrender.com/api/user/getAllTask", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -57,7 +57,7 @@ function PendingTasks() {
 
   const editTaskDetails = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/user/editTask/${id}`, {
+      const response = await fetch(`https://task-scheduler-b7ue.onrender.com/api/user/editTask/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +83,8 @@ function PendingTasks() {
 
   return (
     <div className="min-h-[89vh] h-fit flex flex-col items-center justify-center bg-gray-100">
-      <div className="w-fit min-w-[70vw] bg-white shadow-md rounded-lg p-6">
+      <div className="w-[95vw] min-[768px]:w-[90vw] bg-blue-100
+       shadow-md rounded-lg p-6">
         <h2 className="text-2xl font-bold text-center mb-6">Pending Tasks</h2>
 
         {loading && <p className="text-center text-gray-500">Loading tasks...</p>}
@@ -94,79 +95,80 @@ function PendingTasks() {
         )}
 
         {!loading && tasks.length > 0 && (
-          <table className="min-w-full table-auto border-collapse border border-gray-300">
+          <table className="w-full table-auto border-collapse border border-gray-300 text-[12px] min-[956px]:text-[17px]">
             <thead>
               <tr className="bg-gray-200">
-                <th className="px-4 py-2 border border-gray-300">Name</th>
-                <th className="px-4 py-2 border border-gray-300">Email</th>
-                <th className="px-4 py-2 border border-gray-300">Date</th>
-                <th className="px-4 py-2 border border-gray-300">Time</th>
-                <th className="px-4 py-2 border border-gray-300">Status</th>
-                <th className="px-4 py-2 border border-gray-300">Edit</th>
+                <th className="min-[768px]:px-4 px-2 py-2 border border-gray-300">Name</th>
+                <th className="min-[768px]:px-4 px-2 py-2 border border-gray-300">Email</th>
+                <th className="min-[768px]:px-4 px-2 py-2 border border-gray-300">Date</th>
+                <th className="min-[768px]:px-4 px-2 py-2 border border-gray-300">Time</th>
+                <th className="min-[768px]:px-4 px-2 py-2 border border-gray-300">Status</th>
+                <th className="min-[768px]:px-4 px-2 py-2 border border-gray-300">Edit</th>
               </tr>
             </thead>
             <tbody>
               {tasks.map((task) => (
                 <tr key={task._id} className="hover:bg-gray-100">
-                  <td className="px-4 py-2 border border-gray-300">
+                  <td className="min-[768px]:px-4 px-2 py-2 border border-gray-300">
                     {editableTaskId === task._id ? (
                       <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="border border-gray-300 p-1"
+                        className="border border-gray-300 p-1 w-[100%]"
+
                       />
                     ) : (
                       task.name
                     )}
                   </td>
-                  <td className="px-4 py-2 border border-gray-300">
+                  <td className="min-[768px]:px-4 px-2 py-2 border border-gray-300">
                     {editableTaskId === task._id ? (
                       <input
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className="border border-gray-300 p-1"
+                        className="border border-gray-300 p-1 w-[100%]"
                       />
                     ) : (
                       task.email
                     )}
                   </td>
-                  <td className="px-4 py-2 border border-gray-300">
+                  <td className="min-[768px]:px-4 px-2 py-2 border border-gray-300">
                     {editableTaskId === task._id ? (
                       <input
                         type="date"
                         name="date"
                         value={formData.date}
                         onChange={handleChange}
-                        className="border border-gray-300 p-1"
+                        className="border border-gray-300 p-1 w-[100%]"
                       />
                     ) : (
                       task.date
                     )}
                   </td>
-                  <td className="px-4 py-2 border border-gray-300">
+                  <td className="min-[768px]:px-4 px-2 py-2 border border-gray-300">
                     {editableTaskId === task._id ? (
                       <input
                         type="time"
                         name="time"
                         value={formData.time}
                         onChange={handleChange}
-                        className="border border-gray-300 p-1"
+                        className="border border-gray-300 p-1 w-[100%]"
                       />
                     ) : (
                       task.time
                     )}
                   </td>
-                  <td className="px-4 py-2 border border-gray-300">
+                  <td className="min-[768px]:px-4 px-2 py-2 border border-gray-300">
                     {editableTaskId === task._id ? (
                       <select
                         name="taskStatus"
                         value={formData.taskStatus}
                         onChange={handleChange}
-                        className="border border-gray-300 p-1"
+                        className="border border-gray-300 p-1 w-[100%]"
                       >
                         <option value="Pending">Pending</option>
                         <option value="Completed">Completed</option>
@@ -175,7 +177,7 @@ function PendingTasks() {
                       task.taskStatus
                     )}
                   </td>
-                  <td className="px-4 py-2 border border-gray-300 text-center text-[25px] cursor-pointer">
+                  <td className="min-[768px]:px-4 px-2 py-2 border border-gray-300 text-center text-[25px] cursor-pointer">
                     {editableTaskId === task._id ? (
                       <button
                         onClick={() => editTaskDetails(task._id)}

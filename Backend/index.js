@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const taskRouter=require('./Router/taskRouter')
 const app = express();
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: 'https://task-scheduler-kohl.vercel.app',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-mongoose.connect('mongodb://localhost:27017/Task_Scheduler')
+mongoose.connect('mongodb+srv://pratikdayma45:LzJlylhbT6B09Fqd@cluster0.cpq5ooo.mongodb.net/Task_Scheduler')
     .then(() => { 
         console.log('DB Connected Successfully'); 
     })

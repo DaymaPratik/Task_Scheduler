@@ -1,23 +1,5 @@
 const userTaskModel=require('../Model/taskModel');
 const moment = require('moment');
-
-// const sortedTasks = (tasks)=>{
-//     tasks.sort((a, b) => {
-//         const dueDateA = new Date(a.dueDate);
-//         const dueDateB = new Date(b.dueDate);
-      
-        
-//         if (dueDateA < currentDate && dueDateB < currentDate) {
-//           return dueDateB - dueDateA; 
-//         } else if (dueDateA < currentDate) {
-//           return -1; 
-//         } else if (dueDateB < currentDate) {
-//           return 1; 
-//         }
-      
-//         return dueDateA - dueDateB; 
-//       });
-// }
 const registerUserTaskFunction=async (req,res)=>{
 const {name,email,date,time,taskStatus}=req.body;
 if(!(name && email && date && time && taskStatus)){
@@ -48,7 +30,6 @@ try {
 const getAllTaskFunction=async (req,res)=>{
     try {
         const pendingTasks = await userTaskModel.find();
-        // sortedTasks(pendingTasks);
         res.status(200).json({ pendingTasks });
     } catch (error) {
         console.log("Error in backend while getting all the task",error);
@@ -94,15 +75,26 @@ const editUserTaskFunction = async (req, res) => {
 
 
 const getExpiredTasks = async (req,res) => {
-    const tasks = await userTaskModel.find(); // Assuming you have a Task model
-    const currentDate = moment();
-    const expiredTasks = tasks.filter(task => {
-        const dueDate = moment(task.date); 
-        return dueDate.isBefore(currentDate); 
-    });
+    let filterTaskArray=[];
+  try {
+    const dateObj=new Date();
+    const allTasksArray=await userTaskModel.find();
+    filterTaskArray=allTasksArray.filter((taskObj)=>{
+        console.log(taskObj.date.getTime()-dateObj.getTime());
+        if(taskObj.date-dateObj<0){
+            return taskObj;
+        }
+    })
+    filterTaskArray.map((taskObj)=>{
+        taskObj.taskStatus="Expired"
+    })
+    res.json({status:true,filterTaskArray})
+  } catch (error) {
+    console.log("Error while compraing dates backend",error);
+    
+  }
+      };
 
-    return res.status(200).json(expiredTasks);
-};
   module.exports={registerUserTaskFunction,getAllTaskFunction,editUserTaskFunction,getExpiredTasks};
 
 
